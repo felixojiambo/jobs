@@ -1,4 +1,6 @@
 package com.zep.jobms.jobs;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
