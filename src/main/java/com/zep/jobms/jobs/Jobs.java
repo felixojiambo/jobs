@@ -1,6 +1,5 @@
 package com.zep.jobms.jobs;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.zep.JobApplication.companies.Company;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +19,5 @@ public class Jobs {
     private String minSalary;
     private  String maxSalary;
     private  String Location;
-    @JsonIgnore
-    @ManyToOne
-    private Company company;
+    private Long companyId;
 }

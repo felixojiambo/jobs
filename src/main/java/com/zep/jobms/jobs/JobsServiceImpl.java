@@ -1,11 +1,9 @@
 package com.zep.jobms.jobs;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class JobsServiceImpl implements  JobsService {
+public class JobsServiceImpl implements  JobsService{
   private  JobsRepository jobsRepository;
     private Long nextId = 1L;
 
