@@ -7,6 +7,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class JobsServiceImpl implements  JobsService{
@@ -21,19 +22,21 @@ public class JobsServiceImpl implements  JobsService{
     public List<JobWithCompanyDTO> findAll() {
         List<Jobs> jobs=jobsRepository.findAll();
         List<JobWithCompanyDTO> jobWithCompanyDTOs=new ArrayList<>();
-        RestTemplate restTemplate=new RestTemplate();
-        for (Jobs job:jobs){
-            JobWithCompanyDTO jobWithCompanyDTO=new JobWithCompanyDTO();
-            jobWithCompanyDTO.setJobs(job);
-            Company company= restTemplate.getForObject("http://localhost:8081/companies/companies/" + job.getCompanyId(),
-                    Company.class);
-            jobWithCompanyDTO.setCompany(company);
-            jobWithCompanyDTOs.add(jobWithCompanyDTO);
-        }
 
-       return jobWithCompanyDTOs;
+
+
+       return jobs.stream().map(this::convertToDto).collect(Collectors.toList());
     }
+   private  JobWithCompanyDTO convertToDto(Jobs job){
+       RestTemplate restTemplate=new RestTemplate();
+           JobWithCompanyDTO jobWithCompanyDTO=new JobWithCompanyDTO();
+           jobWithCompanyDTO.setJobs(job);
+           Company company= restTemplate.getForObject("http://localhost:8081/companies/companies/" + job.getCompanyId(),
+                   Company.class);
+           jobWithCompanyDTO.setCompany(company);
+         return jobWithCompanyDTO;
 
+   }
     @Override
     public void createJobs(Jobs job) {
         job.setId(nextId++);
