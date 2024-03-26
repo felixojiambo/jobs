@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
-@RequestMapping("/crud")//At class level, request mapping sets a base url
+@RequestMapping("/crud")
 public class JobsController {
-    private JobsService jobsService;
+    private final JobsService jobsService;
 
     public JobsController(JobsService jobsService) {
         this.jobsService = jobsService;
