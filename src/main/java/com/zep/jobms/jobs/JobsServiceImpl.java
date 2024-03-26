@@ -1,5 +1,7 @@
 package com.zep.jobms.jobs;
+import com.zep.jobms.jobs.external.Company;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +17,9 @@ public class JobsServiceImpl implements  JobsService{
 
     @Override
     public List<Jobs> findAll() {
-        return jobsRepository.findAll();
+        RestTemplate restTemplate=new RestTemplate();
+       Company company= restTemplate.getForObject("http://localhost:8081/companies/companies/1", Company.class);
+       return jobsRepository.findAll();
     }
 
     @Override
