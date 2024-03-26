@@ -1,8 +1,10 @@
 package com.zep.jobms.jobs;
+import com.zep.jobms.jobs.dtos.JobWithCompanyDTO;
 import com.zep.jobms.jobs.external.Company;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,10 +18,20 @@ public class JobsServiceImpl implements  JobsService{
     }
 
     @Override
-    public List<Jobs> findAll() {
+    public List<JobWithCompanyDTO> findAll() {
+        List<Jobs> jobs=jobsRepository.findAll();
+        List<JobWithCompanyDTO> jobWithCompanyDTOs=new ArrayList<>();
         RestTemplate restTemplate=new RestTemplate();
-       Company company= restTemplate.getForObject("http://localhost:8081/companies/companies/1", Company.class);
-       return jobsRepository.findAll();
+        for (Jobs job:jobs){
+            JobWithCompanyDTO jobWithCompanyDTO=new JobWithCompanyDTO();
+            jobWithCompanyDTO.setJobs(job);
+            Company company= restTemplate.getForObject("http://localhost:8081/companies/companies/" + job.getCompanyId(),
+                    Company.class);
+            jobWithCompanyDTO.setCompany(company);
+            jobWithCompanyDTOs.add(jobWithCompanyDTO);
+        }
+
+       return jobWithCompanyDTOs;
     }
 
     @Override

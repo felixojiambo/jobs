@@ -1,10 +1,12 @@
 package com.zep.jobms.jobs;
 
+import com.zep.jobms.jobs.dtos.JobWithCompanyDTO;
+
 import java.util.List;
 
 public interface JobsService {
 
-    List<Jobs> findAll();
+    List<JobWithCompanyDTO> findAll();
     void createJobs(Jobs job);
 
     Jobs getJobsByID(Long id);

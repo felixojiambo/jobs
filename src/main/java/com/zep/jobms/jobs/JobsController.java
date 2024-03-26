@@ -1,5 +1,6 @@
 package com.zep.jobms.jobs;
 
+import com.zep.jobms.jobs.dtos.JobWithCompanyDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,8 @@ public class JobsController {
     }
 
     @GetMapping("/jobs")
-    public ResponseEntity<List<Jobs>> findAll() {
+    public ResponseEntity<List<JobWithCompanyDTO>> findAll() {
+
         return ResponseEntity.ok(jobsService.findAll());
     }
 
