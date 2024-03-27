@@ -15,6 +15,7 @@
 	<description>Microservice for Job Application</description>
 	<properties>
 		<java.version>21</java.version>
+		<spring-cloud.version>2023.0.0</spring-cloud.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -56,12 +57,25 @@
             <version>6.1.4</version>
         </dependency>
 		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+			<version>4.1.0</version>
+		</dependency>
+
+
+		<dependency>
 			<groupId>com.zep</groupId>
 			<artifactId>jobms</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
-
+	<dependency>
+		<groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-dependencies</artifactId>
+		<version>${spring-cloud.version}</version>
+		<type>pom</type>
+		<scope>import</scope>
+	</dependency>
 	<build>
 		<plugins>
 			<plugin>
