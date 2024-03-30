@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @FeignClient(name="COMPANYMS")
 public interface CompanyClient {
- @GetMapping("/crud/company/{id}")
+ @GetMapping("/crud/company_id/{id}")
     Company getCompany(Long id);
 }
