@@ -1,15 +1,15 @@
 package com.zep.jobms.jobs;
 
-import com.zep.jobms.jobs.dtos.JobWithCompanyDTO;
+import com.zep.jobms.jobs.dtos.JobsDTO;
 
 import java.util.List;
 
 public interface JobsService {
 
-    List<JobWithCompanyDTO> findAll();
+    List<JobsDTO> findAll();
     void createJobs(Jobs job);
 
-    JobWithCompanyDTO getJobsByID(Long id);
+    JobsDTO getJobsByID(Long id);
     boolean deleteJobById(Long id);
 
     boolean updateJob(Long id, Jobs updatedJob);

@@ -1,8 +1,6 @@
 package com.zep.jobms.jobs;
 
-import com.zep.jobms.jobs.configs.ServiceDiscoveryTester;
-import com.zep.jobms.jobs.dtos.JobWithCompanyDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.zep.jobms.jobs.dtos.JobsDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +22,7 @@ public class JobsController {
 //        return serviceDiscoveryTester.getServiceUrl(serviceName);
 //    }
     @GetMapping("/jobs")
-    public ResponseEntity<List<JobWithCompanyDTO>> findAll() {
+    public ResponseEntity<List<JobsDTO>> findAll() {
 
         return ResponseEntity.ok(jobsService.findAll());
     }
@@ -36,11 +34,12 @@ public class JobsController {
         return  new ResponseEntity<>("Job added successfully",HttpStatus.OK);
     }
     @GetMapping("/jobs/{id}")
-    public ResponseEntity<JobWithCompanyDTO> getJobsByID(@PathVariable Long id) {
+    public ResponseEntity<JobsDTO> getJobsByID(@PathVariable Long id) {
 
-        JobWithCompanyDTO jobWithCompanyDTO = jobsService.getJobsByID(id);
-        if (jobWithCompanyDTO != null)
-            return new ResponseEntity<>(jobWithCompanyDTO, HttpStatus.OK);
+
+        JobsDTO jobsDTO = jobsService.getJobsByID(id);
+        if (jobsDTO != null)
+            return new ResponseEntity<>(jobsDTO, HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }

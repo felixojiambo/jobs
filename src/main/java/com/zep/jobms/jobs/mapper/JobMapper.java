@@ -1,22 +1,26 @@
 package com.zep.jobms.jobs.mapper;
 
 import com.zep.jobms.jobs.Jobs;
-import com.zep.jobms.jobs.dtos.JobWithCompanyDTO;
+import com.zep.jobms.jobs.dtos.JobsDTO;
 import com.zep.jobms.jobs.external.Company;
+import com.zep.jobms.jobs.external.Reviews;
+
+import java.util.List;
 
 public class JobMapper {
-    public  static JobWithCompanyDTO mapToJobWithCompanyDto(
+    public  static JobsDTO mapToJobWithCompanyDto(
             Jobs jobs,
-            Company company
+            Company company, List<Reviews> reviews
     ){
-        JobWithCompanyDTO jobWithCompanyDTO=new JobWithCompanyDTO();
-        jobWithCompanyDTO.setId(jobs.getId());
-        jobWithCompanyDTO.setTitle(jobs.getTitle());
-        jobWithCompanyDTO.setDescription(jobs.getDescription());
-        jobWithCompanyDTO.setLocation(jobs.getLocation());
-        jobWithCompanyDTO.setMaxSalary(jobs.getMaxSalary());
-        jobWithCompanyDTO.setMinSalary(jobs.getMinSalary());
-        jobWithCompanyDTO.setCompany(company);
-        return  jobWithCompanyDTO;
+        JobsDTO jobsDTO =new JobsDTO();
+        jobsDTO.setId(jobs.getId());
+        jobsDTO.setTitle(jobs.getTitle());
+        jobsDTO.setDescription(jobs.getDescription());
+        jobsDTO.setLocation(jobs.getLocation());
+        jobsDTO.setMaxSalary(jobs.getMaxSalary());
+        jobsDTO.setMinSalary(jobs.getMinSalary());
+        jobsDTO.setCompany(company);
+        jobsDTO.setReviews(reviews);
+        return jobsDTO;
     }
 }
