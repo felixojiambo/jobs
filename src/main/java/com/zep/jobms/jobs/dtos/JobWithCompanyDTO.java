@@ -6,6 +6,11 @@ import lombok.Data;
 
 @Data
 public class JobWithCompanyDTO {
-    private Jobs jobs;
+    private  Long Id;
+    private  String title;
+    private  String description;
+    private String minSalary;
+    private  String maxSalary;
+    private  String location;
     private Company company;
 }

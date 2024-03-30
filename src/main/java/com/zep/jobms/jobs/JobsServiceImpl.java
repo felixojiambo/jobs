@@ -1,6 +1,7 @@
 package com.zep.jobms.jobs;
 import com.zep.jobms.jobs.dtos.JobWithCompanyDTO;
 import com.zep.jobms.jobs.external.Company;
+import com.zep.jobms.jobs.mapper.JobMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -32,13 +33,18 @@ public class JobsServiceImpl implements  JobsService{
 
        return jobs.stream().map(this::convertToDto).collect(Collectors.toList());
     }
-   private  JobWithCompanyDTO convertToDto(Jobs job){
+   private  JobWithCompanyDTO convertToDto(Jobs jobs){
       // RestTemplate restTemplate=new RestTemplate();
-           JobWithCompanyDTO jobWithCompanyDTO=new JobWithCompanyDTO();
-           jobWithCompanyDTO.setJobs(job);
-           Company company= restTemplate.getForObject("http://localhost:8081/crud/company/" + job.getCompanyId(),
+          // JobWithCompanyDTO jobWithCompanyDTO=new JobWithCompanyDTO();
+          // jobWithCompanyDTO.setJobs(jobs);
+
+           Company company= restTemplate.getForObject("http://localhost:8081/crud/company/" + jobs.getCompanyId(),
                    Company.class);
-           jobWithCompanyDTO.setCompany(company);
+
+           JobWithCompanyDTO jobWithCompanyDTO= JobMapper.mapToJobWithCompanyDto(
+             jobs,company
+           );
+       jobWithCompanyDTO.setCompany(company);
          return jobWithCompanyDTO;
 
    }

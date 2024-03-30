@@ -20,4 +20,5 @@ public class Jobs {
     private  String maxSalary;
     private  String location;
     private Long companyId;
+
 }
