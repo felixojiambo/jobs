@@ -1,4 +1,4 @@
-package com.zep.jobms.jobs.configs;
+package com.zep.jobms.jobs;
 
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +10,6 @@ public class AppConfig {
     @LoadBalanced
     @Bean
     public RestTemplate restTemplate(){
-
         return  new RestTemplate();
     }
 }

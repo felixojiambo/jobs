@@ -1,6 +1,7 @@
 package com.zep.jobms.jobs;
 import com.zep.jobms.jobs.dtos.JobWithCompanyDTO;
 import com.zep.jobms.jobs.external.Company;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -11,11 +12,15 @@ import java.util.stream.Collectors;
 
 @Service
 public class JobsServiceImpl implements  JobsService{
-  private  JobsRepository jobsRepository;
+  private final JobsRepository jobsRepository;
+
+@Autowired
+  RestTemplate restTemplate;
     private Long nextId = 1L;
 
     public JobsServiceImpl(JobsRepository jobsRepository) {
         this.jobsRepository = jobsRepository;
+
     }
 
     @Override
@@ -28,15 +33,18 @@ public class JobsServiceImpl implements  JobsService{
        return jobs.stream().map(this::convertToDto).collect(Collectors.toList());
     }
    private  JobWithCompanyDTO convertToDto(Jobs job){
-       RestTemplate restTemplate=new RestTemplate();
+      // RestTemplate restTemplate=new RestTemplate();
            JobWithCompanyDTO jobWithCompanyDTO=new JobWithCompanyDTO();
            jobWithCompanyDTO.setJobs(job);
-           Company company= restTemplate.getForObject("http://localhost:8081/companies/companies/" + job.getCompanyId(),
+           Company company= restTemplate.getForObject("http://localhost:8081/crud/company/" + job.getCompanyId(),
                    Company.class);
            jobWithCompanyDTO.setCompany(company);
          return jobWithCompanyDTO;
 
    }
+
+
+
     @Override
     public void createJobs(Jobs job) {
         job.setId(nextId++);
@@ -44,8 +52,9 @@ public class JobsServiceImpl implements  JobsService{
     }
 
     @Override
-    public Jobs getJobsByID(Long id) {
-       return jobsRepository.findById(id).orElse(null);
+    public JobWithCompanyDTO getJobsByID(Long id) {
+       Jobs job=jobsRepository.findById(id).orElse(null);
+return  convertToDto(job);
     }
     @Override
     public boolean deleteJobById(Long id){
