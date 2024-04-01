@@ -5,6 +5,7 @@ import com.zep.jobms.jobs.dtos.JobsDTO;
 import com.zep.jobms.jobs.external.Company;
 import com.zep.jobms.jobs.external.Reviews;
 import com.zep.jobms.jobs.mapper.JobMapper;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -26,6 +27,8 @@ public class JobsServiceImpl implements  JobsService{
   RestTemplate restTemplate;
     private Long nextId = 1L;
 
+    int attempt=0;
+
     public JobsServiceImpl(JobsRepository jobsRepository, CompanyClient companyClient, ReviewClient reviewClient) {
         this.jobsRepository = jobsRepository;
 this.companyClient=companyClient;
@@ -33,13 +36,20 @@ this.reviewClient=reviewClient;
     }
 
     @Override
+    //@GetMapping("/jobs")
+//@CircuitBreaker(name="companyBreaker",fallbackMethod = "companyBreakerFallback")
+    @Retry(name="companyBreaker")
     public List<JobsDTO> findAll() {
+        System.out.println("Attempt: "+ ++attempt);
         List<Jobs> jobs=jobsRepository.findAll();
         List<JobsDTO> jobsDTOS =new ArrayList<>();
-
-
-
        return jobs.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
+    public List<String> companyBreakerFallback(Exception e){
+        List<String> list=new ArrayList<>();
+        list.add("Test");
+        return list;
     }
    private JobsDTO convertToDto(Jobs jobs){
       // RestTemplate restTemplate=new RestTemplate();
