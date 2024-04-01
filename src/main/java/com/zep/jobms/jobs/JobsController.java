@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 @RestController
 @RequestMapping("/crud")
@@ -23,12 +24,16 @@ public class JobsController {
 //        return serviceDiscoveryTester.getServiceUrl(serviceName);
 //    }
     @GetMapping("/jobs")
-    @CircuitBreaker(name="companyBreaker")
+    @CircuitBreaker(name="companyBreaker",fallbackMethod = "companyBreakerFallback")
     public ResponseEntity<List<JobsDTO>> findAll() {
 
         return ResponseEntity.ok(jobsService.findAll());
     }
-
+public List<String> companyBreakerFallback(Exception e){
+        List<String> list=new ArrayList<>();
+        list.add("Test");
+        return list;
+}
     @PostMapping("/jobs")
     public ResponseEntity<String> createJobs(@RequestBody Jobs job) {
         jobsService.createJobs(job);
