@@ -1,6 +1,7 @@
 package com.zep.jobms.jobs;
 
 import com.zep.jobms.jobs.dtos.JobsDTO;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ public class JobsController {
 //        return serviceDiscoveryTester.getServiceUrl(serviceName);
 //    }
     @GetMapping("/jobs")
+    @CircuitBreaker(name="companyBreaker")
     public ResponseEntity<List<JobsDTO>> findAll() {
 
         return ResponseEntity.ok(jobsService.findAll());
